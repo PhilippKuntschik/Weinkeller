@@ -28,10 +28,10 @@ The application follows a modern, layered architecture:
 
 ```mermaid
 flowchart TD
-    Frontend["Frontend\nReact + Vite"] --> Backend["Backend\nExpress + API"]
-    Backend --> Database["Database\nSQLite"]
-    Frontend --> UIComponents["UI Components\nCommon & UI"]
-    Backend --> ServiceLayer["Service Layer\nBusiness Logic"]
+    Frontend["Frontend<br>React + Vite"] --> Backend["Backend<br>Express + API"]
+    Backend --> Database["Database<br>SQLite"]
+    Frontend --> UIComponents["UI Components<br>Common & UI"]
+    Backend --> ServiceLayer["Service Layer<br>Business Logic"]
     
     style Frontend fill:#f9f,stroke:#333,stroke-width:2px
     style Backend fill:#bbf,stroke:#333,stroke-width:2px
@@ -495,5 +495,4 @@ docker exec weinkeller-app ls -la /data/
    ```
 
 ## License
-
-[MIT License](LICENSE)
+see LICENSE file
