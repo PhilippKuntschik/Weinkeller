@@ -1,0 +1,87 @@
+/* Styles for the Inventory Overview page */
+
+.inventory-container {
+  width: 95%;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+/* Results count */
+.results-count {
+  color: var(--wine-text);
+  font-size: var(--text-sm);
+  margin: var(--space-md) 0;
+}
+
+/* Wine name column */
+.wine-name {
+  font-weight: 600;
+  color: var(--wine-dark);
+  vertical-align: middle;
+}
+
+/* Grape tags */
+.grape-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  vertical-align: middle;
+}
+
+.grape-tag {
+  font-size: var(--text-xs);
+  background-color: rgba(94, 11, 21, 0.1);
+  color: var(--wine-dark);
+  padding: 2px 6px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Generic tag list */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  vertical-align: middle;
+}
+
+.tag {
+  font-size: var(--text-xs);
+  background-color: rgba(94, 11, 21, 0.1);
+  color: var(--wine-dark);
+  padding: 2px 6px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Occasion tags */
+.tag-list .tag[data-tag-type="occasion"] {
+  background-color: rgba(0, 128, 0, 0.1);
+  color: darkgreen;
+}
+
+/* Food pairing tags */
+.tag-list .tag[data-tag-type="food-pairing"] {
+  background-color: rgba(0, 0, 128, 0.1);
+  color: darkblue;
+}
+
+/* Quantity cell */
+.quantity-cell {
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--text-md);
+  vertical-align: middle;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .inventory-container {
+    padding: var(--space-sm);
+  }
+  
+  /* Hide less important columns on mobile */
+  .hide-on-mobile {
+    display: none;
+  }
+}

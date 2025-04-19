@@ -1,0 +1,14 @@
+/* Styles for the Producers pages */
+
+.producers-container {
+  width: 95%;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .producers-container {
+    padding: var(--space-sm);
+  }
+}

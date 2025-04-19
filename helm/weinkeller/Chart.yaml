@@ -1,0 +1,16 @@
+apiVersion: v2
+name: weinkeller
+description: A Helm chart for Weinkeller Wine Inventory Management System
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - wine
+  - inventory
+  - management
+home: https://github.com/OWNER/weinkeller
+sources:
+  - https://github.com/OWNER/weinkeller
+maintainers:
+  - name: OWNER
+    url: https://github.com/OWNER

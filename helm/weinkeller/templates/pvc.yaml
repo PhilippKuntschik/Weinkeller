@@ -1,0 +1,25 @@
+{{- if and .Values.weinkeller.persistence.enabled (not .Values.weinkeller.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "weinkeller.fullname" . }}-data
+  labels:
+    {{- include "weinkeller.labels" . | nindent 4 }}
+  {{- with .Values.weinkeller.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.weinkeller.persistence.accessMode | quote }}
+  {{- if .Values.weinkeller.persistence.storageClass }}
+  {{- if (eq "-" .Values.weinkeller.persistence.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.weinkeller.persistence.storageClass | quote }}
+  {{- end }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.weinkeller.persistence.size | quote }}
+{{- end }}

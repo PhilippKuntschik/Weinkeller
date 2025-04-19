@@ -1,0 +1,148 @@
+.action-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+}
+
+.action-buttons-left {
+  justify-content: flex-start;
+}
+
+.action-buttons-center {
+  justify-content: center;
+}
+
+.action-buttons-right {
+  justify-content: flex-end;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-button-icon {
+  margin-right: var(--space-xs);
+  display: flex;
+  align-items: center;
+}
+
+/* Button sizes */
+.action-button-small {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+.action-button-medium {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-md);
+}
+
+.action-button-large {
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--text-lg);
+}
+
+/* Button variants */
+.action-button-primary {
+  background-color: var(--wine-medium);
+  color: white;
+}
+
+.action-button-primary:hover:not(:disabled) {
+  background-color: var(--wine-dark);
+}
+
+.action-button-secondary {
+  background-color: white;
+  color: var(--wine-dark);
+  border: 1px solid var(--wine-medium);
+}
+
+.action-button-secondary:hover:not(:disabled) {
+  background-color: rgba(94, 11, 21, 0.05);
+}
+
+.action-button-danger {
+  background-color: var(--wine-error);
+  color: white;
+}
+
+.action-button-danger:hover:not(:disabled) {
+  background-color: #b52c2c;
+}
+
+.action-button-success {
+  background-color: var(--wine-success);
+  color: white;
+}
+
+.action-button-success:hover:not(:disabled) {
+  background-color: #3e6b4b;
+}
+
+.action-button-warning {
+  background-color: var(--wine-warning);
+  color: white;
+}
+
+.action-button-warning:hover:not(:disabled) {
+  background-color: #c99654;
+}
+
+.action-button-info {
+  background-color: var(--wine-info);
+  color: white;
+}
+
+.action-button-info:hover:not(:disabled) {
+  background-color: #3e5c8e;
+}
+
+.action-button-text {
+  background-color: transparent;
+  color: var(--wine-medium);
+  padding: var(--space-xs);
+}
+
+.action-button-text:hover:not(:disabled) {
+  background-color: rgba(94, 11, 21, 0.05);
+  color: var(--wine-dark);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+  
+  .action-button {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-button {
+    width: 100%;
+  }
+}

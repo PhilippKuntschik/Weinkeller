@@ -1,0 +1,98 @@
+@import '../styles/variables.css';
+
+.tags-input {
+  margin-bottom: var(--space-md);
+  width: 100%;
+}
+
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(140, 28, 44, 0.1);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.remove-tag {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  margin-left: var(--space-sm);
+  cursor: pointer;
+  font-size: var(--text-md);
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.remove-tag:hover {
+  opacity: 1;
+  color: var(--color-error);
+}
+
+.tag-input {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-family: var(--font-primary);
+  transition: all var(--transition-fast);
+}
+
+.tag-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(140, 28, 44, 0.15);
+}
+
+.tag-suggestions {
+  position: absolute;
+  z-index: var(--z-index-dropdown);
+  background-color: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tag-suggestions li {
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.tag-suggestions li:hover {
+  background-color: rgba(140, 28, 44, 0.05);
+}
+
+.tag-input-container {
+  position: relative;
+}
+
+.tag-input-label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-weight: 500;
+  color: var(--color-primary-dark);
+  font-size: var(--text-sm);
+}

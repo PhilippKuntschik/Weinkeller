@@ -1,0 +1,227 @@
+/* Navbar styles for the Weinkeller application */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-brand {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+.navbar-brand::before {
+  content: '🍷';
+  margin-right: var(--space-sm);
+  font-size: 1.2em;
+}
+
+.navbar-container {
+  display: flex;
+  flex: 1;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-links {
+  justify-content: space-around;
+}
+
+.main-links li {
+  margin: 0 var(--space-md);
+}
+
+.main-links a {
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+
+.navbar-links li {
+  position: relative;
+}
+
+.navbar-links a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--space-sm) 0;
+  cursor: pointer;
+  display: block;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-accent);
+  transition: width 0.3s ease;
+}
+
+.navbar-links a:hover::after {
+  width: 100%;
+}
+
+.navbar-links a:hover {
+  color: var(--color-accent);
+}
+
+
+/* Mobile menu button */
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: var(--text-xl);
+  cursor: pointer;
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.navbar-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggle:focus {
+  outline: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .navbar {
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .navbar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navbar-container {
+    width: 100%;
+  }
+  
+  .navbar-container {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: var(--color-primary-dark);
+    flex-direction: column;
+    padding: 0;
+    display: none;
+    box-shadow: var(--shadow-md);
+    animation: slideDown 0.3s ease-out;
+    z-index: 99;
+  }
+  
+  .navbar-container.active {
+    display: flex;
+  }
+  
+  .navbar-links {
+    position: relative;
+    flex-direction: column;
+    padding: var(--space-md);
+    display: flex;
+    width: 100%;
+  }
+  
+  .main-links {
+    padding-bottom: var(--space-md);
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  
+  .navbar-links li {
+    margin: var(--space-sm) 0;
+    width: 100%;
+  }
+  
+  .navbar-links a {
+    padding: var(--space-sm);
+    width: 100%;
+  }
+  
+  .navbar-links a::after {
+    display: none;
+  }
+  
+  .main-links li {
+    margin: var(--space-xs) 0;
+  }
+  
+  .main-links a {
+    font-size: var(--text-md);
+  }
+}
+
+/* Mobile menu toggle animation */
+.navbar-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: white;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.navbar-toggle .bar:nth-child(1) {
+  transform: translateY(-6px);
+}
+
+.navbar-toggle .bar:nth-child(3) {
+  transform: translateY(6px);
+}
+
+.navbar-toggle.active .bar:nth-child(1) {
+  transform: translateY(2px) rotate(45deg);
+}
+
+.navbar-toggle.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggle.active .bar:nth-child(3) {
+  transform: translateY(-2px) rotate(-45deg);
+}

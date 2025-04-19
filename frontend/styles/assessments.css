@@ -1,0 +1,106 @@
+/**
+ * assessments styles
+ */
+
+/* SATs list styles */
+.SATs-list {
+  margin-top: var(--space-lg);
+  width: 100%;
+}
+
+.SATs-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.SAT-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1.5fr 1fr;
+  background-color: var(--wine-dark);
+  color: white;
+  padding: var(--space-md);
+  font-weight: 600;
+}
+
+.SAT-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1.5fr 1fr;
+  padding: var(--space-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: background-color 0.2s;
+}
+
+.SAT-item:hover {
+  background-color: rgba(94, 11, 21, 0.05);
+}
+
+.SAT-item:last-child {
+  border-bottom: none;
+}
+
+.SAT-date,
+.SAT-wine,
+.SAT-producer,
+.SAT-quality,
+.SAT-actions {
+  display: flex;
+  align-items: center;
+}
+
+.SAT-actions {
+  justify-content: flex-end;
+}
+
+/* assessment Form */
+.WSET-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Tags styles */
+.WSET-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}
+
+.WSET-tag {
+  background-color: var(--wine-light);
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  display: inline-flex;
+  align-items: center;
+}
+
+.WSET-tag-remove {
+  margin-left: var(--space-xs);
+  cursor: pointer;
+  font-size: var(--text-md);
+  line-height: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .SAT-header,
+  .SAT-item {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+  
+  .SAT-producer,
+  .SAT-quality {
+    display: none;
+  }
+  
+  .WSET-form {
+    gap: var(--space-md);
+  }
+}

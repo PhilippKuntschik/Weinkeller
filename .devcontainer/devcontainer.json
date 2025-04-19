@@ -1,0 +1,31 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "Node.js",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"ms-vscode.vscode-speech",
+				"saoudrizwan.claude-dev"
+			]
+		}
+	},
+	// Security-optimized installation that avoids high-risk packages (react-scripts) and uses safer versions of others (nodemon@3.1.9)
+	"postCreateCommand": "npm install",
+	"features": {
+		"node": "latest"
+	},
+	//"remoteUser": "vscode",
+	// required settings for running devcontainer in a rootless podman environment
+	"containerEnv": {
+		"DB_PATH": "/workspaces/weinkeller/run/database/wine_inventory.db"
+	},
+	"portsAttributes": {
+		// Removed PostgreSQL port configuration
+	},
+	"runArgs": [
+		"--userns=keep-id:uid=1000,gid=1000"
+	]
+}

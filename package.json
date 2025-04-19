@@ -1,0 +1,42 @@
+{
+  "name": "wine-inventory-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "npm run dev",
+    "start:frontend": "npm run dev",
+    "dev": "nodemon backend/server.js",
+    "build": "npm run build:frontend",
+    "build:frontend": "npx vite build --config config/vite.config.js",
+    "install:all": "npm install",
+    "lint": "npm run lint",
+    "test": "npm run test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.9",
+    "react-i18next": "^15.4.1",
+    "vite": "^6.2.6"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7",
+    "@vitejs/plugin-react": "^4.4.0",
+    "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.2",
+    "react-router-dom": "^6.22.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.17.0"
+  }
+}

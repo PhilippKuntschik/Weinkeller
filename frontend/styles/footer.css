@@ -1,0 +1,141 @@
+/* Footer styles for the Weinkeller application */
+
+.footer {
+  background-color: var(--wine-dark);
+  color: white;
+  padding: var(--space-lg) 0;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-image: linear-gradient(45deg, var(--wine-dark) 25%, transparent 25%),
+                    linear-gradient(-45deg, var(--wine-dark) 25%, transparent 25%);
+  background-size: 20px 20px;
+}
+
+.footer p {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.footer a {
+  color: var(--wine-gold);
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+/* Footer with multiple sections */
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-section h4 {
+  color: var(--wine-gold);
+  margin-bottom: var(--space-md);
+  font-size: var(--text-md);
+  position: relative;
+  padding-bottom: var(--space-sm);
+}
+
+.footer-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--wine-gold);
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: var(--space-sm);
+}
+
+.footer-links a {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: white;
+  transform: translateX(5px);
+}
+
+/* Social media links */
+.social-links {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  background-color: var(--wine-gold);
+  transform: translateY(-3px);
+}
+
+/* Copyright bar */
+.copyright-bar {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+  
+  .copyright-bar {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Simple footer (currently used in the app) */
+.footer .container {
+  padding: var(--space-md);
+}
