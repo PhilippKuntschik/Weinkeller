@@ -2,6 +2,18 @@
 
 A full-stack application for managing your wine inventory, built with Node.js, Express, React, and SQLite.
 
+# DISCLAIMER & LICENSE INFORMATION
+
+This repository was created through "vibe coding" with the help of Claude 3.7 Sonnet (20250219). While efforts have been made to create functional code, the author makes:
+
+**NO WARRANTY OR GUARANTEE OF ANY KIND**, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. The entire risk as to the quality and performance of this software rests with you.
+
+**LIMITATION OF LIABILITY**: In no event shall the author be liable for any claim, damages, or other liability arising from, out of, or in connection with the software or the use or other dealings in the software.
+
+This software is provided "AS IS" and the author disclaims all warranties with regard to this software. By using this repository, you acknowledge that you are doing so at your own risk.
+
+This disclaimer is in addition to the terms specified in the GNU General Public License v3 (GPL3) under which this repository is distributed.
+
 ## Project Overview
 
 Weinkeller is a comprehensive wine inventory management system that allows users to:
@@ -493,6 +505,3 @@ docker exec weinkeller-app ls -la /data/
    ```bash
    docker stats weinkeller-app
    ```
-
-## License
-see LICENSE file
