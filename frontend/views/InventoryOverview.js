@@ -49,7 +49,7 @@ function InventoryOverview() {
     const fetchInventory = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/api/get_inventory');
+        const response = await axios.get('/get_inventory');
         const data = response.data;
         setInventory(data);
         setFilteredInventory(data);
@@ -281,7 +281,7 @@ function InventoryOverview() {
   // Handle toggle wishlist
   const handleToggleWishlist = async (wineId, currentValue) => {
     try {
-      const response = await axios.post('/api/add_or_update_wine_data', {
+      const response = await axios.post('/add_or_update_wine_data', {
         id: wineId,
         wishlist: currentValue ? 0 : 1
       });
@@ -313,7 +313,7 @@ function InventoryOverview() {
   // Handle toggle favorite
   const handleToggleFavorite = async (wineId, currentValue) => {
     try {
-      const response = await axios.post('/api/add_or_update_wine_data', {
+      const response = await axios.post('/add_or_update_wine_data', {
         id: wineId,
         favorite: currentValue ? 0 : 1
       });

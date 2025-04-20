@@ -30,7 +30,7 @@ function ConsumeWine() {
     const fetchWines = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/api/get_wine_data');
+        const response = await axios.get('/get_wine_data');
         setWines(response.data);
         setError(null);
       } catch (error) {
@@ -55,7 +55,7 @@ function ConsumeWine() {
     setError(null);
     
     try {
-      await axios.post('/api/consume_wine', formData);
+      await axios.post('/consume_wine', formData);
       setSuccess(true);
       
       // Navigate after a short delay to show success message

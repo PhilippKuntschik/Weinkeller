@@ -20,7 +20,7 @@ function ImportExport() {
     setError(null);
     
     try {
-      const response = await axios.get(`/api/export/${exportType}/json`, {
+      const response = await axios.get(`/export/${exportType}/json`, {
         responseType: 'blob'
       });
       
@@ -82,7 +82,7 @@ function ImportExport() {
     setError(null);
     
     try {
-      const response = await axios.post('/api/import/json', jsonData);
+      const response = await axios.post('/import/json', jsonData);
       setImportResult(response.data);
     } catch (err) {
       setError(t('importFailed'));

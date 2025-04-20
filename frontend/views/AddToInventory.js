@@ -33,7 +33,7 @@ function AddToInventory() {
     const fetchWines = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/api/get_wine_data');
+        const response = await axios.get('/get_wine_data');
         setWines(response.data);
         setError(null);
       } catch (error) {

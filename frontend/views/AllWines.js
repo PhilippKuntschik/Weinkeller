@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageHeader, ContentCard, EmptyState, ActionButtons, FilterBar } from '../components/common';
 import { getCurrentInventory } from '../services/inventoryService';
-import { tagService } from '../services';
-import { API_CONFIG, createAxiosInstance } from '../config';
+import { tagService, apiService } from '../services';
 import '../styles/global.css';
 import '../styles/allWines.css';
-
-// Create a configured axios instance
-const api = createAxiosInstance(axios);
 
 function AllWines() {
   const { t } = useTranslation();
@@ -55,12 +50,12 @@ function AllWines() {
       setLoading(true);
       try {
         // Fetch wines
-        const winesResponse = await api.get('/api/get_wine_data');
-        setWines(winesResponse.data);
-        setFilteredWines(winesResponse.data);
+        const winesData = await apiService.get('/get_wine_data');
+        setWines(winesData);
+        setFilteredWines(winesData);
         
         // Fetch producers
-        const producersResponse = await api.get('/api/get_producer_data');
+        const producersData = await apiService.get('/get_producer_data');
         
         // Fetch inventory
         const inventoryData = await getCurrentInventory();
@@ -73,7 +68,7 @@ function AllWines() {
         
         // Create a map of producer IDs to producer data for quick lookup
         const producersMap = {};
-        producersResponse.data.forEach(producer => {
+        producersData.forEach(producer => {
           producersMap[producer.id] = {
             name: producer.name,
             country: producer.country_tag ? producer.country_tag.name : producer.country,
@@ -92,15 +87,15 @@ function AllWines() {
         setWineTypeTags(sortedWineTypeTags);
         
         // Extract filter options from data
-        const producerNames = [...new Set(producersResponse.data.map(producer => producer.name))].sort();
+        const producerNames = [...new Set(producersData.map(producer => producer.name))].sort();
         
         // Extract countries from producer data
-        const countries = [...new Set(producersResponse.data.map(producer => {
+        const countries = [...new Set(producersData.map(producer => {
           return producer.country_tag ? producer.country_tag.name : producer.country;
         }).filter(Boolean))].sort();
         
         // Extract regions from producer data
-        const regions = [...new Set(producersResponse.data.map(producer => {
+        const regions = [...new Set(producersData.map(producer => {
           return producer.region_tag ? producer.region_tag.name : producer.region;
         }).filter(Boolean))].sort();
         
@@ -108,19 +103,19 @@ function AllWines() {
         const types = sortedWineTypeTags.map(tag => tag.name);
         
         // Extract all grape tags
-        const allGrapeTags = winesResponse.data.flatMap(item => item.grape_tags || []);
+        const allGrapeTags = winesData.flatMap(item => item.grape_tags || []);
         const uniqueGrapes = [...new Set(allGrapeTags.map(tag => tag.name))].sort();
         
         // Extract all occasion tags
-        const allOccasionTags = winesResponse.data.flatMap(item => item.occasion_tags || []);
+        const allOccasionTags = winesData.flatMap(item => item.occasion_tags || []);
         const uniqueOccasions = [...new Set(allOccasionTags.map(tag => tag.name))].sort();
         
         // Extract all food pairing tags
-        const allFoodPairingTags = winesResponse.data.flatMap(item => item.food_pairing_tags || []);
+        const allFoodPairingTags = winesData.flatMap(item => item.food_pairing_tags || []);
         const uniqueFoodPairings = [...new Set(allFoodPairingTags.map(tag => tag.name))].sort();
         
         // Find min and max years
-        const years = winesResponse.data.map(item => parseInt(item.year)).filter(year => !isNaN(year));
+        const years = winesData.map(item => parseInt(item.year)).filter(year => !isNaN(year));
         const minYear = years.length > 0 ? Math.min(...years) : 1900;
         const maxYear = years.length > 0 ? Math.max(...years) : new Date().getFullYear();
         
@@ -153,7 +148,7 @@ function AllWines() {
         groupedWines[uncategorizedKey] = [];
         
         // Group wines by type tags
-        winesResponse.data.forEach(wine => {
+        winesData.forEach(wine => {
           if (!wine.wine_type_tags || wine.wine_type_tags.length === 0) {
             // Handle wines without type tags
             groupedWines[uncategorizedKey].push(wine);

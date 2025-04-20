@@ -54,7 +54,7 @@ function AddWine() {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('/api/get_producer_data');
+        const response = await axios.get('/get_producer_data');
         setProducers(response.data);
       } catch (err) {
         console.error('Error fetching producers:', err);
@@ -74,7 +74,7 @@ function AddWine() {
         setLoading(true);
         setError(null);
         try {
-          const response = await axios.get(`/api/get_wine_data/${id}`);
+          const response = await axios.get(`/get_wine_data/${id}`);
           const wineData = response.data;
           
           // Set form values
@@ -122,7 +122,7 @@ function AddWine() {
     
     try {
       // Add grape tags to the request
-      const wineResponse = await axios.post('/api/add_or_update_wine_data', {
+      const wineResponse = await axios.post('/add_or_update_wine_data', {
         ...data,
         id: id || undefined
       });
@@ -131,7 +131,7 @@ function AddWine() {
       
       // Link grape tags to the wine if any are selected
       if (selectedGrapeTags.length > 0) {
-        await axios.post('/api/wine_grape_tags', {
+        await axios.post('/wine_grape_tags', {
           wine_id: wineId,
           grape_tag_ids: selectedGrapeTags.map(tag => tag.id)
         });
@@ -139,7 +139,7 @@ function AddWine() {
       
       // Link wine type tags to the wine if any are selected
       if (selectedWineTypeTags.length > 0) {
-        await axios.post('/api/wine_wine_type_tags', {
+        await axios.post('/wine_wine_type_tags', {
           wine_id: wineId,
           wine_type_tag_ids: selectedWineTypeTags.map(tag => tag.id)
         });
@@ -147,7 +147,7 @@ function AddWine() {
       
       // Link occasion tags to the wine if any are selected
       if (selectedOccasionTags.length > 0) {
-        await axios.post('/api/wine_occasion_tags', {
+        await axios.post('/wine_occasion_tags', {
           wine_id: wineId,
           occasion_tag_ids: selectedOccasionTags.map(tag => tag.id)
         });
@@ -155,7 +155,7 @@ function AddWine() {
       
       // Link food pairing tags to the wine if any are selected
       if (selectedFoodPairingTags.length > 0) {
-        await axios.post('/api/wine_food_pairing_tags', {
+        await axios.post('/wine_food_pairing_tags', {
           wine_id: wineId,
           food_pairing_tag_ids: selectedFoodPairingTags.map(tag => tag.id)
         });
