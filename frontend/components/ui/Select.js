@@ -34,73 +34,25 @@ const Select = forwardRef(({
   className = '',
   ...rest
 }, ref) => {
-  // If using the custom select with search or multiple selection
-  if (searchable || multiple) {
-    return (
-      <CustomSelect
-        label={label}
-        id={id}
-        name={name}
-        options={options}
-        placeholder={placeholder}
-        required={required}
-        error={error}
-        onChange={onChange}
-        value={value}
-        multiple={multiple}
-        disabled={disabled}
-        className={className}
-        ref={ref}
-        {...rest}
-      />
-    );
-  }
-  
-  // Standard select element
+  // Always use the CustomSelect component for consistent UI
   return (
-    <div className="select-container">
-      {label && (
-        <label htmlFor={id} className="select-label">
-          {label}
-          {required && <span className="select-required">*</span>}
-        </label>
-      )}
-      <select
-        ref={ref}
-        id={id}
-        name={name}
-        onChange={onChange}
-        value={value || ''}
-        className={`select ${error ? 'select--error' : ''} ${className}`}
-        required={required}
-        disabled={disabled}
-        {...rest}
-      >
-        {placeholder && <option value="" disabled>{placeholder}</option>}
-        {options.map((option) => {
-          // If this is a group with nested options
-          if (option.options) {
-            return (
-              <optgroup key={option.label} label={option.label}>
-                {option.options.map(nestedOption => (
-                  <option key={nestedOption.value} value={nestedOption.value}>
-                    {nestedOption.label}
-                  </option>
-                ))}
-              </optgroup>
-            );
-          }
-          
-          // Regular option (not a group)
-          return (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          );
-        })}
-      </select>
-      {error && <p className="select-error-message">{error}</p>}
-    </div>
+    <CustomSelect
+      label={label}
+      id={id}
+      name={name}
+      options={options}
+      placeholder={placeholder}
+      required={required}
+      error={error}
+      onChange={onChange}
+      value={value}
+      multiple={multiple}
+      searchable={searchable}
+      disabled={disabled}
+      className={className}
+      ref={ref}
+      {...rest}
+    />
   );
 });
 
@@ -118,6 +70,7 @@ const CustomSelect = forwardRef(({
   onChange,
   value,
   multiple = false,
+  searchable = false,
   disabled = false,
   className = '',
   ...rest
@@ -326,16 +279,18 @@ const CustomSelect = forwardRef(({
         
         {isOpen && (
           <div className="custom-select-options">
-            <div className="custom-select-search">
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-              />
-            </div>
+            {searchable && (
+              <div className="custom-select-search">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+            )}
             
             {filteredOptions.length > 0 ? (
               filteredOptions.map(option => {

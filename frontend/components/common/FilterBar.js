@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Select } from '../ui';
 import './FilterBar.css';
 
 /**
@@ -56,40 +57,31 @@ const FilterBar = ({
     switch (filter.type) {
       case 'select':
         return (
-          <select
+          <Select
             id={`filter-${filter.id}`}
+            name={filter.id}
             value={value}
             onChange={(e) => handleFilterChange(filter.id, e.target.value)}
-            className="filter-select"
+            options={filter.options}
+            placeholder={filter.placeholder || 'Select...'}
             disabled={filter.disabled}
-          >
-            {filter.options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            className="filter-select"
+          />
         );
         
       case 'multi-select':
         return (
-          <select
+          <Select
             id={`filter-${filter.id}`}
+            name={filter.id}
             value={Array.isArray(value) ? value : []}
-            onChange={(e) => {
-              const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-              handleFilterChange(filter.id, selectedOptions);
-            }}
-            className="filter-select"
-            multiple
+            onChange={(e) => handleFilterChange(filter.id, e.target.value)}
+            options={filter.options}
+            placeholder={filter.placeholder || 'Select...'}
+            multiple={true}
             disabled={filter.disabled}
-          >
-            {filter.options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            className="filter-select"
+          />
         );
         
       case 'checkbox':

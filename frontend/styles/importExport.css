@@ -117,6 +117,12 @@
   font-size: 14px;
 }
 
+/* Custom Select styling within ImportExport */
+.form-group .select-container {
+  margin-bottom: 0;
+  width: 100%;
+}
+
 .import-result {
   margin-top: 20px;
   padding: 15px;

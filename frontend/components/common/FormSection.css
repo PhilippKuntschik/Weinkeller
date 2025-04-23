@@ -3,7 +3,8 @@
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   margin-bottom: var(--space-lg);
-  overflow: hidden;
+  /* Remove overflow: hidden to allow dropdowns to extend beyond boundaries */
+  position: relative;
 }
 
 .form-section-title {

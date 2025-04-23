@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportImportService } from '../services';
 import { PageHeader, ContentCard } from '../components/common';
-import { Button } from '../components/ui';
+import { Button, Select } from '../components/ui';
 import '../styles/global.css';
 import '../styles/importExport.css';
 
@@ -134,15 +134,17 @@ function ImportExport() {
           <div className="export-options">
             <div className="form-group">
               <label>{t('exportType')}</label>
-              <select 
+              <Select 
+                id="export-type"
+                name="export-type"
                 value={exportType} 
                 onChange={(e) => setExportType(e.target.value)}
-                className="form-control"
-              >
-                <option value="all">{t('allData')}</option>
-                <option value="wines">{t('winesOnly')}</option>
-                <option value="inventory">{t('inventoryOnly')}</option>
-              </select>
+                options={[
+                  { value: 'all', label: t('allData') },
+                  { value: 'wines', label: t('winesOnly') },
+                  { value: 'inventory', label: t('inventoryOnly') }
+                ]}
+              />
             </div>
             
             <Button 

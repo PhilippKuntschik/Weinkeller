@@ -78,8 +78,7 @@
 }
 
 /* Filter input styles */
-.filter-input,
-.filter-select {
+.filter-input {
   padding: var(--space-sm);
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: var(--radius-sm);
@@ -87,11 +86,19 @@
   width: 100%;
 }
 
-.filter-input:focus,
-.filter-select:focus {
+.filter-input:focus {
   border-color: var(--wine-medium);
   outline: none;
   box-shadow: 0 0 0 2px rgba(94, 11, 21, 0.1);
+}
+
+/* Custom Select styling within FilterBar */
+.filter-select {
+  width: 100%;
+}
+
+.filter-select .select-container {
+  margin-bottom: 0;
 }
 
 /* Range filter */
