@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
+import { exportImportService } from '../services';
 import { PageHeader, ContentCard } from '../components/common';
 import { Button } from '../components/ui';
 import '../styles/global.css';
@@ -20,12 +20,10 @@ function ImportExport() {
     setError(null);
     
     try {
-      const response = await axios.get(`/export/${exportType}/json`, {
-        responseType: 'blob'
-      });
+      const response = await exportImportService.exportData(exportType);
       
       // Create a download link
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const url = window.URL.createObjectURL(new Blob([response]));
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `wine_inventory_${exportType}_export.json`);
@@ -82,8 +80,8 @@ function ImportExport() {
     setError(null);
     
     try {
-      const response = await axios.post('/import/json', jsonData);
-      setImportResult(response.data);
+      const result = await exportImportService.importData(jsonData);
+      setImportResult(result);
     } catch (err) {
       setError(t('importFailed'));
       console.error('Import failed:', err);

@@ -21,3 +21,6 @@ export * as assessmentService from './assessmentService';
 
 // Export tag service
 export { default as tagService } from './tagService';
+
+// Export export/import service
+export * as exportImportService from './exportImportService';

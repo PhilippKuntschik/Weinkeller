@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageHeader, ContentCard, EmptyState, ActionButtons, FilterBar } from '../components/common';
-import { getCurrentInventory } from '../services/inventoryService';
-import { tagService, apiService } from '../services';
+import { inventoryService, wineService, producerService, tagService } from '../services';
 import '../styles/global.css';
 import '../styles/allWines.css';
 
@@ -50,15 +49,15 @@ function AllWines() {
       setLoading(true);
       try {
         // Fetch wines
-        const winesData = await apiService.get('/get_wine_data');
+        const winesData = await wineService.getAllWines();
         setWines(winesData);
         setFilteredWines(winesData);
         
         // Fetch producers
-        const producersData = await apiService.get('/get_producer_data');
+        const producersData = await producerService.getAllProducers();
         
         // Fetch inventory
-        const inventoryData = await getCurrentInventory();
+        const inventoryData = await inventoryService.getCurrentInventory();
         // Create a map of wine_id -> true for wines in inventory
         const inventoryMapping = {};
         inventoryData.forEach(item => {

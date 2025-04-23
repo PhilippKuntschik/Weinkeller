@@ -8,6 +8,7 @@ This directory contains the service layer for the Weinkeller frontend applicatio
 services/
 ├── api.js
 ├── assessmentService.js
+├── exportImportService.js
 ├── inventoryService.js
 ├── producerService.js
 ├── tagService.js
@@ -60,6 +61,12 @@ Handles all tag-related API operations, including:
 - Creating new tags
 - Updating tag associations with wines/producers
 - Querying wines/producers by tags
+
+### exportImportService.js
+
+Handles all export and import operations, including:
+- Exporting data as JSON (all data, wines only, inventory only)
+- Importing data from JSON files
 
 ## Design Principles
 

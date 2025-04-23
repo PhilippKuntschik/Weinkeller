@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
+import { getCurrentInventory } from '../services/inventoryService';
+import { createOrUpdateWine } from '../services/wineService';
 import { PageHeader, DataTable, EmptyState, ActionButtons, FilterBar } from '../components/common';
 import '../styles/global.css';
 import '../styles/inventoryOverview.css';
@@ -49,8 +50,7 @@ function InventoryOverview() {
     const fetchInventory = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/get_inventory');
-        const data = response.data;
+        const data = await getCurrentInventory();
         setInventory(data);
         setFilteredInventory(data);
         
@@ -281,7 +281,7 @@ function InventoryOverview() {
   // Handle toggle wishlist
   const handleToggleWishlist = async (wineId, currentValue) => {
     try {
-      const response = await axios.post('/add_or_update_wine_data', {
+      await createOrUpdateWine({
         id: wineId,
         wishlist: currentValue ? 0 : 1
       });
@@ -313,7 +313,7 @@ function InventoryOverview() {
   // Handle toggle favorite
   const handleToggleFavorite = async (wineId, currentValue) => {
     try {
-      const response = await axios.post('/add_or_update_wine_data', {
+      await createOrUpdateWine({
         id: wineId,
         favorite: currentValue ? 0 : 1
       });

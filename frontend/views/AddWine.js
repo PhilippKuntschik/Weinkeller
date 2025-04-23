@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { wineService, producerService, tagService } from '../services';
 import { useForm, Controller } from 'react-hook-form';
 import { PageHeader, ActionButtons, ContentCard } from '../components/common';
 import '../styles/global.css';
@@ -54,8 +54,8 @@ function AddWine() {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('/get_producer_data');
-        setProducers(response.data);
+        const producersData = await producerService.getAllProducers();
+        setProducers(producersData);
       } catch (err) {
         console.error('Error fetching producers:', err);
         setError('Failed to load producers. Please try again.');
@@ -74,8 +74,7 @@ function AddWine() {
         setLoading(true);
         setError(null);
         try {
-          const response = await axios.get(`/get_wine_data/${id}`);
-          const wineData = response.data;
+          const wineData = await wineService.getWineById(id);
           
           // Set form values
           Object.keys(wineData).forEach(key => {
@@ -122,43 +121,31 @@ function AddWine() {
     
     try {
       // Add grape tags to the request
-      const wineResponse = await axios.post('/add_or_update_wine_data', {
+      const wineResponse = await wineService.createOrUpdateWine({
         ...data,
         id: id || undefined
       });
       
-      const wineId = wineResponse.data.id;
+      const wineId = wineResponse.id;
       
       // Link grape tags to the wine if any are selected
       if (selectedGrapeTags.length > 0) {
-        await axios.post('/wine_grape_tags', {
-          wine_id: wineId,
-          grape_tag_ids: selectedGrapeTags.map(tag => tag.id)
-        });
+        await tagService.updateGrapeTags(wineId, selectedGrapeTags.map(tag => tag.id));
       }
       
       // Link wine type tags to the wine if any are selected
       if (selectedWineTypeTags.length > 0) {
-        await axios.post('/wine_wine_type_tags', {
-          wine_id: wineId,
-          wine_type_tag_ids: selectedWineTypeTags.map(tag => tag.id)
-        });
+        await tagService.updateWineTypeTags(wineId, selectedWineTypeTags.map(tag => tag.id));
       }
       
       // Link occasion tags to the wine if any are selected
       if (selectedOccasionTags.length > 0) {
-        await axios.post('/wine_occasion_tags', {
-          wine_id: wineId,
-          occasion_tag_ids: selectedOccasionTags.map(tag => tag.id)
-        });
+        await tagService.updateOccasionTags(wineId, selectedOccasionTags.map(tag => tag.id));
       }
       
       // Link food pairing tags to the wine if any are selected
       if (selectedFoodPairingTags.length > 0) {
-        await axios.post('/wine_food_pairing_tags', {
-          wine_id: wineId,
-          food_pairing_tag_ids: selectedFoodPairingTags.map(tag => tag.id)
-        });
+        await tagService.updateFoodPairingTags(wineId, selectedFoodPairingTags.map(tag => tag.id));
       }
       
       // Navigate back to the wines list

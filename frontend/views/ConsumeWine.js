@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { wineService, inventoryService } from '../services';
 import { PageHeader, ContentCard, ActionButtons } from '../components/common';
 import { Input, Select, Button, LoadingSpinner } from '../components/ui';
 import '../styles/global.css';
@@ -30,8 +30,8 @@ function ConsumeWine() {
     const fetchWines = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/get_wine_data');
-        setWines(response.data);
+        const wines = await wineService.getAllWines();
+        setWines(wines);
         setError(null);
       } catch (error) {
         console.error('Error fetching wines:', error);
@@ -55,7 +55,7 @@ function ConsumeWine() {
     setError(null);
     
     try {
-      await axios.post('/consume_wine', formData);
+      await inventoryService.consumeWine(formData);
       setSuccess(true);
       
       // Navigate after a short delay to show success message
@@ -64,7 +64,7 @@ function ConsumeWine() {
       }, 1500);
     } catch (error) {
       console.error('Error consuming wine:', error);
-      setError(error.response?.data?.message || t('failedToRecordConsumption'));
+      setError(error.message || t('failedToRecordConsumption'));
       setSuccess(false);
     } finally {
       setLoading(false);

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { addToInventory } from '../services/inventoryService';
-import axios from 'axios';
+import { wineService, inventoryService } from '../services';
 import { PageHeader, ContentCard, ActionButtons } from '../components/common';
 import { Input, Select, Button, LoadingSpinner } from '../components/ui';
 import '../styles/global.css';
@@ -33,8 +32,8 @@ function AddToInventory() {
     const fetchWines = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/get_wine_data');
-        setWines(response.data);
+        const wines = await wineService.getAllWines();
+        setWines(wines);
         setError(null);
       } catch (error) {
         console.error('Error fetching wines:', error);
@@ -58,7 +57,7 @@ function AddToInventory() {
     setError(null);
     
     try {
-      await addToInventory(formData);
+      await inventoryService.addToInventory(formData);
       setSuccess(true);
       
       // Navigate after a short delay to show success message
