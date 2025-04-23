@@ -180,7 +180,6 @@ Since this application uses SQLite (a file-based database), you can deploy it us
 5. Access the application at http://localhost:3000
 
 
-
 ### Database Persistence
 
 #### Using Bind Mounts
