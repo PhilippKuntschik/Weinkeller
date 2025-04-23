@@ -135,19 +135,59 @@ function InventoryOverview() {
     const sortableItems = [...filteredInventory];
     if (sortConfig.key) {
       sortableItems.sort((a, b) => {
-        // Handle null or undefined values
-        if (!a[sortConfig.key] && !b[sortConfig.key]) return 0;
-        if (!a[sortConfig.key]) return 1;
-        if (!b[sortConfig.key]) return -1;
-        
-        // Compare values
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
+        // Special handling for country and region which can be either direct properties or tag properties
+        if (sortConfig.key === 'country') {
+          const aValue = a.country_tag ? a.country_tag.name : a.country;
+          const bValue = b.country_tag ? b.country_tag.name : b.country;
+          
+          // Handle null or undefined values
+          if (!aValue && !bValue) return 0;
+          if (!aValue) return 1;
+          if (!bValue) return -1;
+          
+          // Compare values
+          if (aValue < bValue) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (aValue > bValue) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        } 
+        else if (sortConfig.key === 'region') {
+          const aValue = a.region_tag ? a.region_tag.name : a.region;
+          const bValue = b.region_tag ? b.region_tag.name : b.region;
+          
+          // Handle null or undefined values
+          if (!aValue && !bValue) return 0;
+          if (!aValue) return 1;
+          if (!bValue) return -1;
+          
+          // Compare values
+          if (aValue < bValue) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (aValue > bValue) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
+        else {
+          // Default sorting for other columns
+          // Handle null or undefined values
+          if (!a[sortConfig.key] && !b[sortConfig.key]) return 0;
+          if (!a[sortConfig.key]) return 1;
+          if (!b[sortConfig.key]) return -1;
+          
+          // Compare values
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
         }
-        return 0;
       });
     }
     return sortableItems;
