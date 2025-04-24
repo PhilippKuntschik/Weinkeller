@@ -142,31 +142,27 @@ This application is designed to be deployed as a stateless container with the SQ
 
 - Docker
 
-### Deployment with Docker
+### Quick Start with Pre-built Images
 
-Since this application uses SQLite (a file-based database), you can deploy it using a simple Docker container without needing Docker Compose.
+The easiest way to get started is to use the pre-built Docker images from GitHub Container Registry:
 
-### Quick Start with Docker (Recommended for SQLite)
-
-1. Clone the repository:
+1. Pull the image:
    ```bash
-   git clone <repository-url>
-   cd weinkeller
+   # Using the latest version
+   docker pull ghcr.io/philippkuntschik/weinkeller:latest
+   
+   # Or using a specific version (recommended for production)
+   docker pull ghcr.io/philippkuntschik/weinkeller:0.1.0
    ```
 
 2. Create a directory for the database:
    ```bash
-   # Create a directory for the database on your host machine
    mkdir -p ~/weinkeller-data
    ```
 
-3. Build the Docker image:
+3. Run the container:
    ```bash
-   docker build -t weinkeller .
-   ```
-
-4. Run the container with the directory mounted:
-   ```bash
+   # Using the latest version
    docker run -d \
      --name weinkeller-app \
      -p 3000:3000 \
@@ -174,53 +170,80 @@ Since this application uses SQLite (a file-based database), you can deploy it us
      -e NODE_ENV=production \
      -e DB_PATH=/data/wine_inventory.db \
      --restart unless-stopped \
-     weinkeller
+     ghcr.io/philippkuntschik/weinkeller:latest
+   
+   # Or using a specific version (recommended for production)
+   docker run -d \
+     --name weinkeller-app \
+     -p 3000:3000 \
+     -v ~/weinkeller-data:/data \
+     -e NODE_ENV=production \
+     -e DB_PATH=/data/wine_inventory.db \
+     --restart unless-stopped \
+     ghcr.io/philippkuntschik/weinkeller:0.1.0
    ```
 
-5. Access the application at http://localhost:3000
+4. Access the application at http://localhost:3000
 
+### Additional Docker Deployment Options
 
-### Database Persistence
+#### Building Your Own Docker Image
 
-#### Using Bind Mounts
-
-Instead of using Docker volumes, you can use bind mounts to store the SQLite database directly in a directory on your host machine. This makes it easier to access, backup, and manage the database file directly.
+If you prefer to build your own Docker image:
 
 ```bash
-# Create a directory for the database
-mkdir -p ~/weinkeller-data
+# Clone the repository and navigate to it
+git clone <repository-url>
+cd weinkeller
 
-# Run the container with a bind mount
+# Build the Docker image
+docker build -t weinkeller .
+
+# Run the container
 docker run -d \
   --name weinkeller-app \
   -p 3000:3000 \
-  -v ~/weinkeller-data:/app/run/database \
+  -v ~/weinkeller-data:/data \
+  -e NODE_ENV=production \
+  -e DB_PATH=/data/wine_inventory.db \
+  --restart unless-stopped \
   weinkeller
 ```
 
-With this approach, the database file will be stored at `~/weinkeller-data/wine_inventory.db` on your host machine, making it easy to:
-- Access the database file directly
-- Make manual backups by simply copying the file
-- Use standard file system tools for management
-- Migrate the database to another system
+#### Database Persistence Options
 
-##### Backup and Restore with Bind Mounts
+The application uses SQLite, which stores data in a file. You have several options for persisting this data:
 
-Since the database file is directly accessible on your host system, you can backup and restore it using standard file operations:
+1. **Standard mount** (as shown in examples above):
+   ```bash
+   -v ~/weinkeller-data:/data
+   ```
 
-To backup:
+2. **Alternative mount path** for app/run/database:
+   ```bash
+   -v ~/weinkeller-data:/app/run/database
+   ```
+
+3. **Custom directory location**:
+   ```bash
+   -v /path/to/your/data/directory:/data
+   ```
+
+#### Backup and Restore
+
+Since the database file is directly accessible on your host system:
+
 ```bash
+# Backup
 cp ~/weinkeller-data/wine_inventory.db ~/wine_inventory_backup.db
-```
 
-To restore:
-```bash
+# Restore
 cp ~/wine_inventory_backup.db ~/weinkeller-data/wine_inventory.db
 ```
 
-#### Option 3: Running Without Docker
+#### Running Without Docker
 
-For the simplest setup, you can run the application directly on your host machine without Docker. In this case, the SQLite database will be stored in the `run/database/` directory of the project.
+For the simplest setup, run directly on your host machine:
 
 ```bash
 # Install dependencies
@@ -232,9 +255,9 @@ npm start
 
 The database will be located at `./run/database/wine_inventory.db` relative to the project root.
 
-### Custom Configuration
+#### Custom Configuration
 
-You can pass environment variables directly to the container:
+Pass environment variables to customize the application:
 
 ```bash
 docker run -d \
@@ -243,25 +266,10 @@ docker run -d \
   -v ~/weinkeller-data:/data \
   -e NODE_ENV=production \
   -e DB_PATH=/data/wine_inventory.db \
-  -e VITE_DEFAULT_LANGUAGE=de \
-  -e LOG_LEVEL=debug \
+  -e VITE_DEFAULT_LANGUAGE=de  # Set default language
+  -e LOG_LEVEL=debug           # Enable detailed logging
   --restart unless-stopped \
-  weinkeller
-```
-
-### Custom Directory Location
-
-You can mount a host directory directly:
-
-```bash
-docker run -d \
-  --name weinkeller-app \
-  -p 3000:3000 \
-  -v /path/to/your/data/directory:/data \
-  -e NODE_ENV=production \
-  -e DB_PATH=/data/wine_inventory.db \
-  --restart unless-stopped \
-  weinkeller
+  ghcr.io/philippkuntschik/weinkeller:latest
 ```
 
 ## CI/CD with GitHub Actions
@@ -290,24 +298,7 @@ The project is configured to automatically build and publish Docker images to Gi
 
 ### Using Pre-built Images
 
-You can use the pre-built images directly from GitHub Container Registry:
-
-```bash
-# Pull the latest image
-docker pull ghcr.io/OWNER/weinkeller:latest
-
-# Run the container
-docker run -d \
-  --name weinkeller-app \
-  -p 3000:3000 \
-  -v ~/weinkeller-data:/data \
-  -e NODE_ENV=production \
-  -e DB_PATH=/data/wine_inventory.db \
-  --restart unless-stopped \
-  ghcr.io/OWNER/weinkeller:latest
-```
-
-Replace `OWNER` with your GitHub username or organization name.
+For instructions on using the pre-built images from GitHub Container Registry, see the [Quick Start with Pre-built Images](#quick-start-with-pre-built-images) section above.
 
 ### Semantic Versioning
 
@@ -347,7 +338,7 @@ You can install the chart directly from the GitHub Container Registry:
 
 ```bash
 # Add the Helm repository
-helm pull oci://ghcr.io/OWNER/helm/weinkeller --version 1.0.0
+helm pull oci://ghcr.io/philippkuntschik/helm/weinkeller --version 1.0.0
 
 # Install the chart
 helm install weinkeller ./weinkeller-1.0.0.tgz \
@@ -357,7 +348,7 @@ helm install weinkeller ./weinkeller-1.0.0.tgz \
   --set weinkeller.persistence.size=2Gi
 ```
 
-Replace `OWNER` with your GitHub username or organization name, and `1.0.0` with the desired version.
+Replace `1.0.0` with the desired version if needed.
 
 ### Configuration
 
@@ -366,7 +357,7 @@ The following table lists the configurable parameters of the Weinkeller chart an
 | Parameter                           | Description                                      | Default                      |
 |-------------------------------------|--------------------------------------------------|------------------------------|
 | `replicaCount`                      | Number of replicas                               | `1`                          |
-| `image.repository`                  | Image repository                                 | `ghcr.io/OWNER/weinkeller`   |
+| `image.repository`                  | Image repository                                 | `ghcr.io/philippkuntschik/weinkeller`   |
 | `image.tag`                         | Image tag                                        | `latest`                     |
 | `image.pullPolicy`                  | Image pull policy                                | `IfNotPresent`               |
 | `service.type`                      | Kubernetes Service type                          | `ClusterIP`                  |
@@ -417,97 +408,52 @@ kubectl delete pvc -l app.kubernetes.io/instance=weinkeller
 
 ## Troubleshooting
 
-If you encounter issues such as "Internal Server Error" when accessing the application, here are some debugging steps:
+If you encounter issues with the application, here are some debugging steps:
 
-### Enabling Detailed Logging
-
-The application uses Winston for logging with configurable log levels. You can enable more detailed logging by setting the `LOG_LEVEL` environment variable:
+### Logging and Diagnostics
 
 ```bash
+# Enable detailed logging
 docker run -d \
   --name weinkeller-app \
   -p 3000:3000 \
   -v ~/weinkeller-data:/data \
-  -e NODE_ENV=production \
-  -e DB_PATH=/data/wine_inventory.db \
-  -e LOG_LEVEL=debug \
+  -e LOG_LEVEL=debug \  # Options: silly, debug, verbose, http, info, warn, error
   --restart unless-stopped \
-  weinkeller
-```
+  ghcr.io/philippkuntschik/weinkeller:latest
 
-Available log levels (from most to least verbose):
-- `silly` - Extremely detailed logging (not recommended for production)
-- `debug` - Detailed information useful for debugging
-- `verbose` - More detailed than info
-- `http` - HTTP request logging
-- `info` - General information (default in production)
-- `warn` - Warnings
-- `error` - Errors only
-
-The default log level is `info` in production and `debug` in development.
-
-### Viewing Container Logs
-
-Check the container logs to see any error messages:
-
-```bash
+# View container logs
 docker logs weinkeller-app
-```
+docker logs --tail 100 weinkeller-app  # Last 100 lines
 
-For more detailed logs:
-
-```bash
-docker logs --tail 100 weinkeller-app
-```
-
-### Accessing the Container Shell
-
-You can access the container's shell to debug from inside:
-
-```bash
+# Access container shell
 docker exec -it weinkeller-app /bin/sh
-```
 
-Once inside, you can:
-- Check if the database file exists: `ls -la /data/`
-- Verify Node.js is working: `node --version`
-- Check environment variables: `env | grep DB_PATH`
-
-### Checking Container Health
-
-Verify the container's health status:
-
-```bash
+# Check container health
 docker inspect --format='{{.State.Health.Status}}' weinkeller-app
-```
 
-### Verifying Database Connectivity
-
-Check if the database file exists and is accessible:
-
-```bash
+# Check database accessibility
 docker exec weinkeller-app ls -la /data/
 ```
 
 ### Common Issues
 
-1. **Database permissions**: Ensure the container has write permissions to the database directory:
+1. **Database permissions**: Test write access to the data directory
    ```bash
    docker exec weinkeller-app touch /data/test.txt
    ```
 
-2. **Missing database file**: If the database file doesn't exist, you may need to initialize it:
+2. **Missing database file**: Initialize the database if needed
    ```bash
    docker exec -e DB_INIT_ONLY=true weinkeller-app node backend/server.js
    ```
 
-3. **Port conflicts**: Ensure no other service is using port 3000:
+3. **Port conflicts**: Check if port 3000 is already in use
    ```bash
-   # Check if port 3000 is in use
    netstat -tuln | grep 3000
    ```
 
-4. **Container resource limits**: The container might not have enough resources:
+4. **Resource limitations**: Check container resource usage
    ```bash
    docker stats weinkeller-app
    ```
