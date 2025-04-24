@@ -34,7 +34,7 @@
   margin-top: 1.5rem;
 }
 
-/* Responsive grid - 2 items per row on larger screens */
+/* Responsive grid - 2 items per row on medium screens */
 @media (min-width: 768px) {
   .analytics-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -42,6 +42,13 @@
   
   .stat-card {
     min-width: 150px;
+  }
+}
+
+/* Responsive grid - 3 items per row on larger screens */
+@media (min-width: 1200px) {
+  .analytics-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

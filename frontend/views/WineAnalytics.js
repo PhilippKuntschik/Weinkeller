@@ -77,19 +77,95 @@ function WineAnalytics() {
     };
   }, [inventory]);
   
-  // Chart options
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'right',
+  // Process data for country distribution pie chart
+  const countryData = React.useMemo(() => {
+    if (!inventory.length) return null;
+    
+    // Count bottles by country
+    const countryCounts = {};
+    inventory.forEach(item => {
+      const countryName = item.country_tag ? item.country_tag.name : 
+                         (item.country ? item.country : t('unknownProducer'));
+      
+      countryCounts[countryName] = (countryCounts[countryName] || 0) + item.inventory;
+    });
+    
+    // Prepare data for chart.js
+    const labels = Object.keys(countryCounts);
+    const data = Object.values(countryCounts);
+    
+    // Generate colors with a different hue range than wine types
+    const backgroundColors = labels.map((_, i) => 
+      `hsl(${120 + (i * 360) / labels.length}, 70%, 60%)`
+    );
+    
+    return {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: backgroundColors,
+          borderWidth: 1,
+        },
+      ],
+    };
+  }, [inventory, t]);
+  
+  // Process data for grape varieties pie chart
+  const grapeData = React.useMemo(() => {
+    if (!inventory.length) return null;
+    
+    // Count bottles by grape variety
+    const grapeCounts = {};
+    inventory.forEach(item => {
+      if (item.grape_tags && item.grape_tags.length > 0) {
+        item.grape_tags.forEach(tag => {
+          grapeCounts[tag.name] = (grapeCounts[tag.name] || 0) + item.inventory;
+        });
+      } else if (item.grape) {
+        // If there are no grape tags but there is a grape field
+        grapeCounts[item.grape] = (grapeCounts[item.grape] || 0) + item.inventory;
+      } else {
+        grapeCounts['Unspecified'] = (grapeCounts['Unspecified'] || 0) + item.inventory;
+      }
+    });
+    
+    // Prepare data for chart.js
+    const labels = Object.keys(grapeCounts);
+    const data = Object.values(grapeCounts);
+    
+    // Generate colors with a different hue range than the other charts
+    const backgroundColors = labels.map((_, i) => 
+      `hsl(${240 + (i * 360) / labels.length}, 70%, 60%)`
+    );
+    
+    return {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: backgroundColors,
+          borderWidth: 1,
+        },
+      ],
+    };
+  }, [inventory]);
+  
+  // Chart options factory function to create options with different titles
+  const createChartOptions = (titleKey) => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: true,
+          text: t(titleKey),
+        },
       },
-      title: {
-        display: true,
-        text: t('wineTypeDistribution'),
-      },
-    },
+    };
   };
   
   return (
@@ -124,12 +200,40 @@ function WineAnalytics() {
             <div className="no-data-message">{t('noWineData')}</div>
           ) : (
             <div className="chart-container">
-              <Pie data={wineTypeData} options={chartOptions} />
+              <Pie data={wineTypeData} options={createChartOptions('wineTypeDistribution')} />
             </div>
           )}
         </ContentCard>
         
-        {/* Additional charts can be added here in the future */}
+        <ContentCard 
+          title={t('countryDistribution')}
+          className="chart-card"
+        >
+          {loading ? (
+            <div className="loading-indicator">{t('loading')}</div>
+          ) : !countryData ? (
+            <div className="no-data-message">{t('noWineData')}</div>
+          ) : (
+            <div className="chart-container">
+              <Pie data={countryData} options={createChartOptions('countryDistribution')} />
+            </div>
+          )}
+        </ContentCard>
+        
+        <ContentCard 
+          title={t('grapeDistribution')}
+          className="chart-card"
+        >
+          {loading ? (
+            <div className="loading-indicator">{t('loading')}</div>
+          ) : !grapeData ? (
+            <div className="no-data-message">{t('noWineData')}</div>
+          ) : (
+            <div className="chart-container">
+              <Pie data={grapeData} options={createChartOptions('grapeDistribution')} />
+            </div>
+          )}
+        </ContentCard>
       </div>
     </div>
   );

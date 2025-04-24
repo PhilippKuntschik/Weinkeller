@@ -283,6 +283,8 @@
   "analytics": "Analytics",
   "wineAnalytics": "Wine Analytics",
   "wineTypeDistribution": "Wine Type Distribution",
+  "countryDistribution": "Country Distribution",
+  "grapeDistribution": "Grape Distribution",
   "noWineData": "No wine data available",
   "totalBottles": "Total Bottles",
   "uniqueWines": "Unique Wines",
