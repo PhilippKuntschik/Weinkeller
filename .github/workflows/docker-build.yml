@@ -36,6 +36,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Get current version
+        id: package_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      
       - name: Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v5
@@ -43,10 +49,10 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=${{ steps.package_version.outputs.version }}-nightly,enable=${{ github.ref == 'refs/heads/main' }}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{major}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-            type=sha,format=short
           labels: |
             org.opencontainers.image.title=Weinkeller
             org.opencontainers.image.description=Wine Inventory Management System
@@ -64,19 +70,3 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             APP_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
-      
-      - name: Make package public
-        if: github.event_name != 'pull_request'
-        run: |
-          echo "Making package public..."
-          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          PACKAGE_NAME=$(echo "$REPO_NAME" | cut -d '/' -f 2)
-          
-          # Update package visibility to public
-          gh api \
-            --method PATCH \
-            -H "Accept: application/vnd.github+json" \
-            "/user/packages/container/$PACKAGE_NAME" \
-            -f visibility='public'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

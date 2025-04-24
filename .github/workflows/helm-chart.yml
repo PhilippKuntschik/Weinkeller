@@ -82,6 +82,6 @@ jobs:
           REPO_OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           
           # Push to GHCR using Helm OCI support
-          helm push $CHART_PACKAGE oci://ghcr.io/$REPO_OWNER_LC/charts
+          helm push $CHART_PACKAGE oci://ghcr.io/$REPO_OWNER_LC/helm
           
-          echo "Chart pushed to ghcr.io/$REPO_OWNER_LC/charts"
+          echo "Chart pushed to ghcr.io/$REPO_OWNER_LC/helm"

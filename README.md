@@ -273,13 +273,20 @@ This project includes GitHub Actions workflows for continuous integration and de
 The project is configured to automatically build and publish Docker images to GitHub Container Registry (ghcr.io) using GitHub Actions.
 
 - Images are built and published on:
-  - Pushes to the main branch (tagged as `latest`)
+  - Pushes to the main branch (tagged as `latest` and `{version}-nightly`, e.g., `1.0.0-nightly`)
   - Release creation (tagged with semantic version)
   - Tag pushes matching the pattern `v*.*.*` (tagged with semantic version)
 
 - Multi-platform images are built for:
   - `linux/amd64` (x86_64)
   - `linux/arm64` (ARM64/v8)
+
+**Note:** Package visibility must be configured manually in the repository settings. To make packages public:
+1. Go to your GitHub repository
+2. Click on "Settings"
+3. Click on "Packages" in the left sidebar
+4. Under "Package Creation", select "Public" as the default visibility
+5. Click "Save"
 
 ### Using Pre-built Images
 
@@ -340,7 +347,7 @@ You can install the chart directly from the GitHub Container Registry:
 
 ```bash
 # Add the Helm repository
-helm pull oci://ghcr.io/OWNER/charts/weinkeller --version 1.0.0
+helm pull oci://ghcr.io/OWNER/helm/weinkeller --version 1.0.0
 
 # Install the chart
 helm install weinkeller ./weinkeller-1.0.0.tgz \
