@@ -36,11 +36,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Get current version
+      - name: Get current version and datetime
         id: package_version
         run: |
           VERSION=$(node -p "require('./package.json').version")
+          DATETIME=$(date -u +"%Y%m%d%H%M")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "datetime=$DATETIME" >> $GITHUB_OUTPUT
       
       - name: Extract metadata for Docker
         id: meta
@@ -49,7 +51,7 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=raw,value=${{ steps.package_version.outputs.version }}-nightly,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=${{ steps.package_version.outputs.version }}-${{ steps.package_version.outputs.datetime }},enable=${{ github.ref == 'refs/heads/main' }}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{major}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}

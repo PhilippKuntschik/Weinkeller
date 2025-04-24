@@ -273,7 +273,7 @@ This project includes GitHub Actions workflows for continuous integration and de
 The project is configured to automatically build and publish Docker images to GitHub Container Registry (ghcr.io) using GitHub Actions.
 
 - Images are built and published on:
-  - Pushes to the main branch (tagged as `latest` and `{version}-nightly`, e.g., `1.0.0-nightly`)
+  - Pushes to the main branch (tagged as `latest` and `{version}-{datetime}`, e.g., `1.0.0-202504241909`)
   - Release creation (tagged with semantic version)
   - Tag pushes matching the pattern `v*.*.*` (tagged with semantic version)
 
